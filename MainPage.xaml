@@ -4,18 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:software_application_24point"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DataContext="{d:DesignInstance Type=local:Input}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="187" Margin="185,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="187" Margin="385,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="187" Margin="585,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="187" Margin="785,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBox x:Name="InputTextBox" HorizontalAlignment="Left" Height="38" Margin="185,0,0,0" Text="{Binding Path = Expression,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="861"/>
-        <Button Content="Submit" Margin="983,577,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="RPN" Text="{Binding Path= ReversePolishNotation,Mode=OneWay}" Margin="184,576,698,344" />
-
+        <TextBlock x:Name="RPN" Text="{Binding Path=ReversePolishNotation,Mode=OneWay}" Margin="185,421,777,543" FontSize="28"/>
+        <TextBlock HorizontalAlignment="Left" Height="66" Margin="185,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="385,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="60" Margin="585,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="54" Margin="785,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="InputTextBox" HorizontalAlignment="Left" Height="38" Margin="185,0,0,0" Text="{Binding Path=Expression,Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="861"/>
+        <Button Content="Submit" Margin="983,577,0,0" VerticalAlignment="Top" Click="Button_Click"/>
     </Grid>
 </Page>
