@@ -161,6 +161,7 @@ namespace software_application_24point
                 }
                 int[] rpn = new int[array.Length];
                 int temp;
+                j = 0;
                 for (int i =0; i < array.Length; i++)
                 {
                     if(array[i]>0 && array[i] < 14)
@@ -180,13 +181,13 @@ namespace software_application_24point
                                 temp = stack.Peek();
                                 if(GetPriority(temp) >= GetPriority(array[i]))
                                 {
-                                    rpn[j++] = array[i];
+                                    rpn[j++] =temp;
                                     stack.Pop();
                                 }
                                 else {break; }
                             }
+                            stack.Push(array[i]);
                         }
-                        stack.Push(array[i]);
                     }
                     else
                     {
