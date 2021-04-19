@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="software_application_24point.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:software_application_24point">
+
+</Application>
