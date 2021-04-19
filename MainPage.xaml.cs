@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +26,41 @@ namespace software_application_24point
         public MainPage()
         {
             this.InitializeComponent();
+            Input input = new Input("Please type in arithmetic expression here.");
+            InputTextBox.DataContext = input;
+            RPN.DataContext = input;
+        }
+    }
+    class Input : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private string expression;
+        public string Expression
+        {
+            get { return expression; }
+            set
+            {
+                expression = value;
+                if (this.PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Expression"));
+                }
+            }
+        }
+        public string ReversePolishNotation;
+        public string StringDeal()
+        {
+            get { return ReversePolishNotation; }
+            Stack<string> stack = new Stack<string>();
+            int length = expression.Length;
+            for (int i = 0; i < length; i++)
+            {
+                if()
+            }
+        }
+        public Input(string expression)
+        {
+            this.expression = expression;
         }
     }
 }

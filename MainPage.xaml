@@ -9,6 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <TextBlock HorizontalAlignment="Left" Height="187" Margin="185,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="187" Margin="385,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="187" Margin="585,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBlock HorizontalAlignment="Left" Height="187" Margin="785,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="InputTextBox" HorizontalAlignment="Left" Height="38" Margin="185,0,0,0" Text="{Binding Path = Expression,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="861"/>
+        <Button Content="Submit" Margin="983,577,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="RPN" Text="{Binding Path= ReversePolishNotation,Mode=OneWay}" Margin="184,576,698,344" />
 
     </Grid>
 </Page>
