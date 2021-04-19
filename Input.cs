@@ -212,7 +212,43 @@ namespace software_application_24point
                     rpn[j++] = temp;
                 }
             }
-            
+            //计算后缀表达式的值，默认中缀表达式所有数字都是一位的，在0-9之间  
+            stack<int> mystack;
+            int size = str.size();
+            int num1, num2, num3;
+            for (int i = 0; i < size; i++)
+            {
+                if (str[i] >= '0' && str[i] <= '9')
+                {
+                    mystack.push(str[i] - '0');
+                }
+                else
+                {
+                    num2 = mystack.top();
+                    mystack.pop();
+                    num1 = mystack.top();
+                    mystack.pop();
+                    if (str[i] == '+')
+                    {
+                        num3 = num1 + num2;
+                    }
+                    else if (str[i] == '-')
+                    {
+                        num3 = num1 - num2;
+                    }
+                    else if (str[i] == '*')
+                    {
+                        num3 = num1 * num2;
+                    }
+                    else if (str[i] == '/')
+                    {
+                        num3 = num1 / num2;
+                    }
+                    mystack.push(num3);
+                }
+            }
+            return mystack.top();
+
         }
         public int GetPriority(int n)
         {
