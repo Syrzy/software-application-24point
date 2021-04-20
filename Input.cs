@@ -12,6 +12,18 @@ namespace software_application_24point
     class Input : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private int caculationresult;
+        public int CaculationResult
+        {
+            get { return caculationresult; }
+            set { caculationresult = value; }
+        }
+        private int[] rpn;
+        public int[] Rpn 
+        { 
+            get { return rpn; }
+            set { rpn = value; } 
+        }
         private string expression;
         public string Expression
         {
@@ -37,7 +49,7 @@ namespace software_application_24point
                     PropertyChanged(this, new PropertyChangedEventArgs("ReversePolishNotation"));
                 }
             }
-        }
+        } 
         public async Task StringDealAsync()
         {
             expression.Trim();//remove blank
@@ -77,11 +89,6 @@ namespace software_application_24point
                                 if (expression[i - 1] == ')') 
                                 {
                                     rkuo++;
-                                    if(lkuo != rkuo)
-                                    {
-                                        correctinput = 0;
-                                        break;
-                                    }
                                     if(expression[i] == '(')
                                     {
                                         correctinput = 0;
@@ -98,6 +105,8 @@ namespace software_application_24point
                                     break;
                                 }
                             }
+                            else if(expression[i] == ')') { rkuo++; }
+                            else if(expression[i] == '(') { lkuo++; }
                             flag = 0;
                         }
                     }
@@ -149,17 +158,17 @@ namespace software_application_24point
                 {
                     if(reverse_polish_notation[i] > '9' || reverse_polish_notation[i] < '0')
                     {
-                        array[++j] = (int)ReversePolishNotation[i];
+                        array[j] = (int)ReversePolishNotation[i];
                         flag = 0;
                     }
                     else
                     {
                         array[j] = (reverse_polish_notation[i] - 48)+array[j]*10;
-                        flag++;
-                        j--;
+                        j -= flag;
+                        flag = 1;
                     }
                 }
-                int[] rpn = new int[array.Length];
+                rpn = new int[array.Length];
                 int temp;
                 j = 0;
                 for (int i =0; i < array.Length; i++)
@@ -211,44 +220,51 @@ namespace software_application_24point
                     temp = stack.Pop();
                     rpn[j++] = temp;
                 }
-            }
-            //计算后缀表达式的值，默认中缀表达式所有数字都是一位的，在0-9之间  
-            stack<int> mystack;
-            int size = str.size();
-            int num1, num2, num3;
-            for (int i = 0; i < size; i++)
-            {
-                if (str[i] >= '0' && str[i] <= '9')
+                //计算后缀表达式的值
+                stack.Clear();
+                length = rpn.Length;
+                int num1, num2, num3 = -1;
+                for (int i = 0; i < length; i++)
                 {
-                    mystack.push(str[i] - '0');
+                    if(rpn[i] == 0)
+                    {
+                        break;
+                    }
+                    if (rpn[i] > 0 && rpn[i] < 14)
+                    {
+                        stack.Push(rpn[i]);
+                    }
+                    else
+                    {
+                        num2 = stack.Pop();
+                        num1 = stack.Pop();
+                        if (rpn[i] == '+')
+                        {
+                            num3 = num1 + num2;
+                        }
+                        else if (rpn[i] == '-')
+                        {
+                            num3 = num1 - num2;
+                        }
+                        else if (rpn[i] == '*')
+                        {
+                            num3 = num1 * num2;
+                        }
+                        else if (rpn[i] == '/')
+                        {
+                            num3 = num1 / num2;
+                        }
+                        else if (rpn[i] == '^')
+                        {
+                            num3 = (int)Math.Pow(num1,num2);
+                        }
+                        stack.Push(num3);
+                    }
                 }
-                else
-                {
-                    num2 = mystack.top();
-                    mystack.pop();
-                    num1 = mystack.top();
-                    mystack.pop();
-                    if (str[i] == '+')
-                    {
-                        num3 = num1 + num2;
-                    }
-                    else if (str[i] == '-')
-                    {
-                        num3 = num1 - num2;
-                    }
-                    else if (str[i] == '*')
-                    {
-                        num3 = num1 * num2;
-                    }
-                    else if (str[i] == '/')
-                    {
-                        num3 = num1 / num2;
-                    }
-                    mystack.push(num3);
-                }
+                CaculationResult = stack.Pop();
+                //ReversePolishNotation = null;
+                //ReversePolishNotation += stack.Pop();
             }
-            return mystack.top();
-
         }
         public int GetPriority(int n)
         {

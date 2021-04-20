@@ -25,16 +25,27 @@ namespace software_application_24point
     public sealed partial class MainPage : Page
     {
         Input input = new Input("Please type in arithmetic expression here.");
+        Solve solve = new Solve();
         public MainPage()
         {
             this.InitializeComponent();
             InputTextBox.DataContext = input;
             RPN.DataContext = input;
+            solve.ProduceRandomNumber();
+            B1.DataContext = solve;
+            B2.DataContext = solve;
+            B3.DataContext = solve;
+            B4.DataContext = solve;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
             _ = input.StringDealAsync();
+        }
+
+        private void Renew_Button_Click(object sender, RoutedEventArgs e)
+        {
+            solve.ProduceRandomNumber();
         }
     }
 }

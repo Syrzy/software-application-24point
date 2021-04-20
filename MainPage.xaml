@@ -9,12 +9,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="RPN" Text="{Binding Path=ReversePolishNotation,Mode=OneWay}" Margin="185,421,777,543" FontSize="28"/>
-        <TextBlock HorizontalAlignment="Left" Height="66" Margin="185,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="55" Margin="385,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="60" Margin="585,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBlock HorizontalAlignment="Left" Height="54" Margin="785,251,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-        <TextBox x:Name="InputTextBox" HorizontalAlignment="Left" Height="38" Margin="185,0,0,0" Text="{Binding Path=Expression,Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="861"/>
-        <Button Content="Submit" Margin="983,577,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="RPN" Text="{Binding Path=ReversePolishNotation,Mode=OneWay}" FontSize="28" Grid.Row="1" Grid.ColumnSpan="2" Width="500" Margin="125,61,125,380" Grid.Column="1"/>
+        <TextBlock x:Name="B1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="95"  Text="{Binding Path=A1,Mode=OneWay}" TextWrapping="Wrap" Width="190" Grid.Column="0" FontSize="40"/>
+        <TextBlock x:Name="B2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="95"  Text="{Binding Path=A2,Mode=OneWay}" TextWrapping="Wrap" Width="190" Grid.Column="1" FontSize="40"/>
+        <TextBlock x:Name="B3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="95"  Text="{Binding Path=A3,Mode=OneWay}" TextWrapping="Wrap" Width="190" Grid.Column="2" FontSize="40"/>
+        <TextBlock x:Name="B4" HorizontalAlignment="Center" VerticalAlignment="Center" Height="95"  Text="{Binding Path=A4,Mode=OneWay}" TextWrapping="Wrap" Width="190" Grid.Column="3" FontSize="40"/>
+        <TextBox x:Name="InputTextBox" HorizontalAlignment="Left" Height="38" Margin="320,321,0,0" Text="{Binding Path=Expression,Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="861" Grid.ColumnSpan="4" Grid.Row="1"/>
+        <Button Content="Submit" Click="Submit_Button_Click" Grid.Row="1" Grid.Column="3" Width="136" Grid.RowSpan="1" Height="57" Margin="0,485,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30"/>
+        <Button Content="Renew" Click="Renew_Button_Click" Grid.Row="1" Grid.Column="3" Width="136" Grid.RowSpan="1" Height="57" Margin="0,85,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30"/>
     </Grid>
 </Page>
