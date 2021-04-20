@@ -14,20 +14,20 @@ namespace software_application_24point
         public void ProduceRandomNumber()
         {
             Random rd = new Random();
-            A1 = ""+((rd.Next(1, 1000)) % 13 + 1);
+            A1 = ((rd.Next(1, 1000)) % 13 + 1).ToString();
             A2 = (rd.Next(1, 1000)) % 13 + 1;
             A3 = (rd.Next(1, 1000)) % 13 + 1;
             A4 = (rd.Next(1, 1000)) % 13 + 1;
         }
         public string A1
         {
-            get { return ""+a1; }
+            get { return a1.ToString(); }
             set
             {
                 a1 = Convert.ToInt32(value);
                 if (this.PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("a1"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("A1"));
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace software_application_24point
                 a2 = value;
                 if (this.PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("a2"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("A2"));
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace software_application_24point
                 a3 = value;
                 if (this.PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("a3"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("A3"));
                 }
             }
         }
@@ -63,9 +63,16 @@ namespace software_application_24point
                 a4 = value;
                 if (this.PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("a4"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("A4"));
                 }
             }
+        }
+        public Solve()
+        {
+            a1 = 0;
+            a2 = 0;
+            a3 = 0;
+            a4 = 0;
         }
     }
 }

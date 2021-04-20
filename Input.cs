@@ -163,15 +163,15 @@ namespace software_application_24point
                     }
                     else
                     {
-                        array[j] = (reverse_polish_notation[i] - 48)+array[j]*10;
                         j -= flag;
+                        array[j] = (reverse_polish_notation[i] - 48)+array[j]*10;
                         flag = 1;
                     }
                 }
                 rpn = new int[array.Length];
                 int temp;
                 j = 0;
-                for (int i =0; i < array.Length; i++)
+                for (int i =0; i < array.Length && array[i] != 0; i++)
                 {
                     if(array[i]>0 && array[i] < 14)
                     {
@@ -206,12 +206,15 @@ namespace software_application_24point
                         }
                         else
                         {
-                            while (stack.Peek() != '(')
+                            while (stack.Count != 0 && stack.Peek() != '(')
                             {
                                 temp = stack.Pop();
                                 rpn[j++] = temp;
                             }
-                            stack.Pop();
+                            if (stack.Count != 0)
+                            {
+                                stack.Pop();
+                            }
                         }
                     }
                 } 
@@ -262,8 +265,7 @@ namespace software_application_24point
                     }
                 }
                 CaculationResult = stack.Pop();
-                //ReversePolishNotation = null;
-                //ReversePolishNotation += stack.Pop();
+                ReversePolishNotation = CaculationResult.ToString();
             }
         }
         public int GetPriority(int n)
@@ -279,6 +281,7 @@ namespace software_application_24point
         public Input(string expression)
         {
             this.expression = expression;
+            this.reverse_polish_notation = "hello.";
         }
     }
 }
