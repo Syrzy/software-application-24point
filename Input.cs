@@ -12,8 +12,14 @@ namespace software_application_24point
     class Input : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private int caculationresult;
-        public int CaculationResult
+        private int[] array;
+        public int[] GetandSetArray
+        {
+            get { return array; }
+            set { array = value; }
+        }
+        private double caculationresult;
+        public double CaculationResult
         {
             get { return caculationresult; }
             set { caculationresult = value; }
@@ -61,6 +67,7 @@ namespace software_application_24point
                 int correctinput = 1;
                 int flag = 0;
                 int rkuo = 0, lkuo = 0;
+                int number = 0;
                 if(expression[0] != '+' && expression[0] != '(' && ((expression[0] < '0' || expression[0] > '9')))
                 {
                     correctinput = 0;
@@ -75,6 +82,7 @@ namespace software_application_24point
                     {
                         if(expression[i] > '0' && expression[i] < '9')
                         {
+                            number++;
                             flag++;
                             if(flag > 2)
                             {
@@ -115,6 +123,10 @@ namespace software_application_24point
                 {
                     correctinput = 0;
                 }
+                if (number < 4)
+                {
+                    correctinput = 0;
+                }
                 if (correctinput == 0)
                 {
                     ContentDialog noWifiDialog = new ContentDialog
@@ -149,9 +161,8 @@ namespace software_application_24point
                         }
                     }
                 }
-
                 length = ReversePolishNotation.Length;
-                int[] array = new int[length];
+                array = new int[length];
                 flag = 0;
                 int j = 0;
                 for (int i = 0; i < length; i++,j++)//flag represent how many number elements are before this element
@@ -224,9 +235,9 @@ namespace software_application_24point
                     rpn[j++] = temp;
                 }
                 //计算后缀表达式的值
-                stack.Clear();
+                Stack<double> dstack = new Stack<double>();
                 length = rpn.Length;
-                int num1, num2, num3 = -1;
+                double num1, num2, num3 = -1;
                 for (int i = 0; i < length; i++)
                 {
                     if(rpn[i] == 0)
@@ -235,12 +246,12 @@ namespace software_application_24point
                     }
                     if (rpn[i] > 0 && rpn[i] < 14)
                     {
-                        stack.Push(rpn[i]);
+                        dstack.Push(rpn[i]);
                     }
                     else
                     {
-                        num2 = stack.Pop();
-                        num1 = stack.Pop();
+                        num2 = dstack.Pop();
+                        num1 = dstack.Pop();
                         if (rpn[i] == '+')
                         {
                             num3 = num1 + num2;
@@ -259,13 +270,12 @@ namespace software_application_24point
                         }
                         else if (rpn[i] == '^')
                         {
-                            num3 = (int)Math.Pow(num1,num2);
+                            num3 = Math.Pow(num1,num2);
                         }
-                        stack.Push(num3);
+                        dstack.Push(num3);
                     }
                 }
-                CaculationResult = stack.Pop();
-                ReversePolishNotation = CaculationResult.ToString();
+                CaculationResult = dstack.Pop();
             }
         }
         public int GetPriority(int n)
@@ -281,7 +291,7 @@ namespace software_application_24point
         public Input(string expression)
         {
             this.expression = expression;
-            this.reverse_polish_notation = "hello.";
+          //this.reverse_polish_notation = "he\nllo.";
         }
     }
 }

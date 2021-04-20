@@ -30,7 +30,7 @@ namespace software_application_24point
         {
             this.InitializeComponent();
             InputTextBox.DataContext = input;
-            RPN.DataContext = input;
+            RPN.DataContext = solve;
             solve.ProduceRandomNumber();
             B1.DataContext = solve;
             B2.DataContext = solve;
@@ -41,11 +41,21 @@ namespace software_application_24point
         private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
             _ = input.StringDealAsync();
+            if (input.GetandSetArray != null)
+            {
+                solve.Judge(input.CaculationResult,input.GetandSetArray);
+            }
+            
         }
 
         private void Renew_Button_Click(object sender, RoutedEventArgs e)
         {
             solve.ProduceRandomNumber();
+        }
+
+        private void Help_Button_Click(object sender, RoutedEventArgs e)
+        {
+            solve.FindAllSolution(0);
         }
     }
 }
