@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="software_application_24point.GradePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:software_application_24point"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBox x:Name="Present" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,234,835,591" FontSize="40" Header="本局胜场"/>
+        <TextBox x:Name="Total" Text="{Binding Path=Totalwintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,432,835,393" FontSize="40" Header="总胜场"/>
+        <Button Content="Another game" Margin="908,707,0,0" VerticalAlignment="Top" Height="70" Width="228" FontSize="28" Click="Button_Click"/>
+    </Grid>
+</Page>

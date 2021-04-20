@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -24,8 +25,10 @@ namespace software_application_24point
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        int PlayTime = 5;
         Input input = new Input("Please type in arithmetic expression here.");
         Solve solve = new Solve();
+        User user = new User(0, 0, "NULL");
         public MainPage()
         {
             this.InitializeComponent();
@@ -45,17 +48,70 @@ namespace software_application_24point
             {
                 _=solve.Judge(input.CaculationResult,input.GetandSetArray);
             }
-            
+            if(solve.Correct == true)
+            {
+                user.Wintimes++;
+            }
+            if(--PlayTime == 0)
+            {
+                Frame.Navigate(typeof(GradePage),user.Wintimes);
+            }
         }
-
-        private void Renew_Button_Click(object sender, RoutedEventArgs e)
+        private async void Renew_Button_Click(object sender, RoutedEventArgs e)
         {
-            solve.ProduceRandomNumber();
+            MessageDialog msg = new MessageDialog("Renovate will cost you one chance, are you sure?");
+
+            UICommand cmdYes = new UICommand();
+            cmdYes.Id = 1;
+            cmdYes.Label = "Yes";
+
+            UICommand cmdNo = new UICommand();
+            cmdNo.Id = 2;
+            cmdNo.Label = "No";
+
+            msg.Commands.Add(cmdNo);
+            msg.Commands.Add(cmdYes);
+
+            var selectedCommand = await msg.ShowAsync();
+            if(selectedCommand != null)
+            {
+                if ((int)selectedCommand.Id == 1)
+                {
+                    solve.ProduceRandomNumber();
+                    if (--PlayTime == 0)
+                    {
+                        Frame.Navigate(typeof(GradePage), user.Wintimes);
+                    }
+                }
+            }
         }
-
-        private void Help_Button_Click(object sender, RoutedEventArgs e)
+        private async void Help_Button_Click(object sender, RoutedEventArgs e)
         {
-            solve.FindAllSolution(0);
+            MessageDialog msg = new MessageDialog("Seeking help will cost you one chance, are you sure?");
+
+            UICommand cmdYes = new UICommand();
+            cmdYes.Id = 1;
+            cmdYes.Label = "Yes";
+
+            UICommand cmdNo = new UICommand();
+            cmdNo.Id = 2;
+            cmdNo.Label = "No";
+
+            msg.Commands.Add(cmdNo);
+            msg.Commands.Add(cmdYes);
+
+            var selectedCommand = await msg.ShowAsync();
+            if (selectedCommand != null)
+            {
+                if ((int)selectedCommand.Id == 1)
+                {
+                    solve.FindAllSolution();
+                    if (--PlayTime == 0)
+                    {
+                        Frame.Navigate(typeof(GradePage), user.Wintimes);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,50 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace software_application_24point
 {
+    class UsersCollection
+    {
+        public static ObservableCollection<User> Users = new ObservableCollection<User>();
+    }
     class User
     {
-        private int points;
+        private int totalwintimes;
         private int wintimes;
         private string name;
-        int Points
+        public int Totalwintimes
         {
-            get { return points; }
-            set { points = value; }
+            get { return totalwintimes; }
+            set { totalwintimes = value; }
         }
-        int Wintimes
+        public int Wintimes
         {
             get { return wintimes; }
             set { wintimes = value; }
         }
-        string Name
+        public string Name
         {
             get { return name; }
             set { name = value; }
         }
-        /*User()
+        public User(int totalwintimes,int wintimes,string name)
         {
-            Windows.Storage.ApplicationDataCompositeValue composite = new Windows.Storage.ApplicationDataCompositeValue();
-
-            composite["intVal"] = 1;
-            composite["strVal"] = "string";
-
-            localSettings.Values["exampleCompositeSetting"] = composite;
-
-            // Retrieve composite setting
-            Windows.Storage.ApplicationDataCompositeValue compositeValue =
-                (Windows.Storage.ApplicationDataCompositeValue)localSettings.Values["exampleCompositeSetting"];
-
-            if (compositeValue != null)
-            {
-                int intVal = (int)compositeValue["intVal"];
-
-                string strVal = (string)compositeValue["strVal"];
-            }
-        }*/
+            this.totalwintimes = totalwintimes;
+            this.wintimes = wintimes;
+            this.name = name;
+        }
     }
 }

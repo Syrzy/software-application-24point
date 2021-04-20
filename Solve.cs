@@ -11,6 +11,7 @@ namespace software_application_24point
     class Solve : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public bool Correct;
         private int[] Nlist;//number list
         private int[] Nlist2;//number list
         private char[] Olist;//operation list
@@ -88,9 +89,13 @@ namespace software_application_24point
                 }
             }
         }
+        public void FindAllSolution()
+        {
+            AllSolution = "";
+            FindAllSolution(0);
+        }
         public void FindAllSolution(int i)
         {
-            //AllSolution = null;
             if(i < 7)
             {
                 if (i == 0 || i == 1 || i == 3 || i == 5)
@@ -199,16 +204,6 @@ namespace software_application_24point
             }
             return stack.Pop();
         }
-        public int GetPriority(int n)
-        {
-            int p = -1;
-            if (n == '(') { p = 0; }
-            if (n == '+' || n == '-') { p = 1; }
-            if (n == '*' || n == '/') { p = 2; }
-            if (n == '^') { p = 3; }
-            if (n == ')') { p = 4; }
-            return p;
-        }
         public async Task Judge(double n, int[] array)
         {
             int[] Numinput = new int[4];//judge if the input used those given numbers
@@ -237,6 +232,7 @@ namespace software_application_24point
                         CloseButtonText = "Sad."
                     };
                     ContentDialogResult result = await noWifiDialog.ShowAsync();
+                    Correct = false;
                     return;
                 }
             }
@@ -249,10 +245,13 @@ namespace software_application_24point
                     CloseButtonText = "Sad."
                 };
                 ContentDialogResult result = await noWifiDialog.ShowAsync();
+                Correct = false;
                 return;
             }
             else
             {
+                Correct = true;
+                ProduceRandomNumber();
                 ContentDialog noWifiDialog = new ContentDialog
                 {
                     Title = "Good Solution",
@@ -270,6 +269,7 @@ namespace software_application_24point
             Olist = new char[5] {'+','-','*','/','^' };
             Rpn = new int[7];
             allsolution = "hello!\n";
+            Correct = false;
         }
     }
 }
