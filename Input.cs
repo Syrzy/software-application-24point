@@ -78,9 +78,9 @@ namespace software_application_24point
                 }
                 for (int i = 0; i < length; i++)//flag represent how many number elements are before this element
                 {
-                    if ((expression[i] > '0' && expression[i] < '9') || expression[i] == '+' || expression[i] == '-' || expression[i] == '/' || expression[i] == '*' || expression[i] == '^' || expression[i] == ' ' || expression[i] == '(' || expression[i] == ')')
+                    if ((expression[i] >= '0' && expression[i] <= '9') || expression[i] == '+' || expression[i] == '-' || expression[i] == '/' || expression[i] == '*' || expression[i] == '^' || expression[i] == ' ' || expression[i] == '(' || expression[i] == ')')
                     {
-                        if(expression[i] > '0' && expression[i] < '9')
+                        if(expression[i] >= '0' && expression[i] <= '9')
                         {
                             number++;
                             flag++;
@@ -96,7 +96,6 @@ namespace software_application_24point
                             {
                                 if (expression[i - 1] == ')') 
                                 {
-                                    rkuo++;
                                     if(expression[i] == '(')
                                     {
                                         correctinput = 0;

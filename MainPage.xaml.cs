@@ -43,7 +43,7 @@ namespace software_application_24point
             _ = input.StringDealAsync();
             if (input.GetandSetArray != null)
             {
-                solve.Judge(input.CaculationResult,input.GetandSetArray);
+                _=solve.Judge(input.CaculationResult,input.GetandSetArray);
             }
             
         }

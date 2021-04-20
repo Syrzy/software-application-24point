@@ -90,7 +90,7 @@ namespace software_application_24point
         }
         public void FindAllSolution(int i)
         {
-            AllSolution = null;
+            //AllSolution = null;
             if(i < 7)
             {
                 if (i == 0 || i == 1 || i == 3 || i == 5)
@@ -209,11 +209,11 @@ namespace software_application_24point
             if (n == ')') { p = 4; }
             return p;
         }
-        public async void Judge(double n, int[] array)
+        public async Task Judge(double n, int[] array)
         {
             int[] Numinput = new int[4];//judge if the input used those given numbers
-            int i,j;
-            for (i = 0,j = 0; i < array.Length && j < 4; i++)
+            int i, j;
+            for (i = 0, j = 0; i < array.Length && j < 4; i++)
             {
                 if (array[i] > 0 && array[i] < 14)
                 {
