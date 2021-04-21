@@ -117,6 +117,10 @@ namespace software_application_24point
                             flag = 0;
                         }
                     }
+                    else
+                    {
+                        correctinput = 0;
+                    }
                 }
                 if(lkuo != rkuo)
                 {

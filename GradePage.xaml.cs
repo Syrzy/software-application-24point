@@ -22,7 +22,8 @@ namespace software_application_24point
     /// </summary>
     public sealed partial class GradePage : Page
     {
-        User user = new User(0, 0, "NULL");
+        User user;
+        User differenceuser = new User(0,0,null);
         public GradePage()
         {
             this.InitializeComponent();
@@ -30,58 +31,44 @@ namespace software_application_24point
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter != null && e.Parameter is int)
+            if (e.Parameter != null && e.Parameter is User)
             {
-                user.Wintimes = (int)e.Parameter;
-                Present.DataContext = user;
-                Total.DataContext = user;
-                GetandSetLocalData();
+                user = e.Parameter as User;
+                user.Losetimes += (5 - user.Wintimes);
+                PresentWin.DataContext = differenceuser;
+                TotalWin.DataContext = user;
+                PresentLose.DataContext = differenceuser;
+                TotalLose.DataContext = user;
+                UserName.DataContext = user;
+                SetLocalData();
             }
         }
-        private void GetandSetLocalData()
+        private void SetLocalData()
         {
-            int UserNumber = 0;
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["IndexValue"] == null)
-            {
-                user.Totalwintimes = user.Wintimes;
-            }
-            else
-            {
-                UserNumber = Convert.ToInt32(localSettings.Values["IndexValue"].ToString());
-                UsersCollection.Users.Clear();
-                for (int i = 1; i < UserNumber; i++)
-                {
-                    if (localSettings.Values[i.ToString()] != null)
-                    {
-                        Windows.Storage.ApplicationDataCompositeValue UserValue = localSettings.Values[i.ToString()] as Windows.Storage.ApplicationDataCompositeValue;
-                        UsersCollection.Users.Add(new User(Convert.ToInt32(UserValue["totalwintimes"]), Convert.ToInt32(UserValue["wintimes"]), UserValue["name"].ToString()));
-                    }
-                }
-                user.Totalwintimes = UsersCollection.Users[0].Totalwintimes;
-                UsersCollection.Users[0].Totalwintimes += user.Wintimes;
-                UsersCollection.Users[0].Wintimes = user.Wintimes;
-            }
-
-            User testUser;
+            int UserNumber = Convert.ToInt32(localSettings.Values["IndexValue"].ToString());
             for (int i = 0; i < UserNumber; i++)
             {
                 try
                 {
                     Windows.Storage.ApplicationDataCompositeValue UserValue = localSettings.Values[i.ToString()] as Windows.Storage.ApplicationDataCompositeValue;
-                    testUser = new User(Convert.ToInt32(UserValue["totalwintimes"]), Convert.ToInt32(UserValue["wintimes"]), UserValue["name"].ToString());
-                    if (testUser.Totalwintimes == user.Totalwintimes && testUser.Wintimes == user.Wintimes)
+                    if (UserValue["name"].ToString() == user.Name)
                     {
-                        localSettings.Values[i.ToString()] = UsersCollection.Users[0];
+                        differenceuser.Wintimes = user.Wintimes - Convert.ToInt32(UserValue["wintimes"].ToString());
+                        differenceuser.Losetimes = user.Losetimes - Convert.ToInt32(UserValue["losetimes"].ToString());
+                        UsersCollection.Users[i] = user;
+                        UserValue["wintimes"] = user.Wintimes;
+                        UserValue["losetimes"] = user.Losetimes;
+                        localSettings.Values[i.ToString()] = UserValue;
+                        break;
                     }
                 }
                 catch { }
             }
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            Frame.Navigate(typeof(MainPage),user);
         }
     }
 }

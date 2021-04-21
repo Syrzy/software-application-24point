@@ -168,6 +168,11 @@ namespace software_application_24point
                     }
                     else if (rpn[i] == '^')
                     {
+                        if((int)num3 != num3)
+                        {
+                            stack.Clear();
+                            continue;
+                        }
                         num3 = (int)Math.Pow(num1, num2);
                     }
                     stack.Push(num3);
@@ -232,7 +237,6 @@ namespace software_application_24point
                         CloseButtonText = "Sad."
                     };
                     ContentDialogResult result = await noWifiDialog.ShowAsync();
-                    Correct = false;
                     return;
                 }
             }
@@ -245,7 +249,6 @@ namespace software_application_24point
                     CloseButtonText = "Sad."
                 };
                 ContentDialogResult result = await noWifiDialog.ShowAsync();
-                Correct = false;
                 return;
             }
             else

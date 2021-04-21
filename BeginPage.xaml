@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="software_application_24point.BeginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:software_application_24point"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBox x:Name="TextBoxUserName" HorizontalAlignment="Center" VerticalAlignment="Center" Text="" TextWrapping="Wrap" Height="80" Width="270" Header="Please type in User name" FontFamily="Comic Sans MS" FontSize="22" TextAlignment="Center" />
+        <Button  Content="BEGIN!" Height="69" Width="270"  HorizontalAlignment="Center" Margin="0,656,0,0" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="48" Click="Button_Click" />
+        <Button Content="Button" Height="72" Margin="1244,845,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click_1"/>
+    </Grid>
+</Page>
