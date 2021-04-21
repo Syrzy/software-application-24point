@@ -40,6 +40,11 @@ namespace software_application_24point
             {
                 Nlist2[i] = Nlist[i];
             }
+            FindAllSolution();
+            if (AllSolution == "")
+            {
+                ProduceRandomNumber();
+            }
         }
         public string A1
         {
