@@ -173,10 +173,10 @@ namespace software_application_24point
                     }
                     else if (rpn[i] == '^')
                     {
-                        if((int)num3 != num3)
+                        if ((int)num3 != num3)
                         {
-                            stack.Clear();
-                            continue;
+                            stack.Push(-1);
+                            break;
                         }
                         num3 = (int)Math.Pow(num1, num2);
                     }
