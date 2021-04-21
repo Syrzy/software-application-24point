@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using Windows.System.Threading;
+using Windows.UI.Xaml.Media.Imaging;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -34,13 +35,46 @@ namespace software_application_24point
         public MainPage()
         {
             this.InitializeComponent();
+            ImageBrush imageBrush = new ImageBrush();
+            imageBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/BackGround.jpg", UriKind.Absolute));
+            MainPageGrid.Background = imageBrush;
             InputTextBox.DataContext = input;
             RPN.DataContext = solve;
-            //solve.ProduceRandomNumber();
+            solve.ProduceRandomNumber();
+            ChangeImage();
             B1.DataContext = solve;
             B2.DataContext = solve;
             B3.DataContext = solve;
             B4.DataContext = solve;
+
+        }
+        public void ChangeImage()
+        {
+            Image1.Source = new BitmapImage(new Uri(GetAddress(Convert.ToInt32(solve.A1))));
+            Image2.Source = new BitmapImage(new Uri(GetAddress(solve.A2)));
+            Image3.Source = new BitmapImage(new Uri(GetAddress(solve.A3)));
+            Image4.Source = new BitmapImage(new Uri(GetAddress(solve.A4)));
+        }
+        public string GetAddress(int n)
+        {
+            string address = "ms-appx:///Assets/";
+            switch (n)
+            {
+                case 1: address += "黑桃A.jpg"; break;
+                case 2: address += "黑桃2.jpg"; break;
+                case 3: address += "黑桃3.png"; break;
+                case 4: address += "黑桃4.png"; break;
+                case 5: address += "黑桃5.jpg"; break;
+                case 6: address += "黑桃6.jpg"; break;
+                case 7: address += "黑桃7.jpg"; break;
+                case 8: address += "黑桃8.jpg"; break;
+                case 9: address += "黑桃9.jpg"; break;
+                case 10: address += "黑桃10.jpg"; break;
+                case 11: address += "黑桃J.jpg"; break;
+                case 12: address += "黑桃Q.jpg"; break;
+                case 13: address += "黑桃K.jpg"; break;
+            }
+            return address;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -61,6 +95,7 @@ namespace software_application_24point
             {
                 user.Wintimes++;
                 solve.Correct = false;
+                ChangeImage();
             }
             if(PlayTime-- == 0)
             {
@@ -96,6 +131,7 @@ namespace software_application_24point
                 if ((int)selectedCommand.Id == 1)
                 {
                     solve.ProduceRandomNumber();
+                    ChangeImage();
                     if (PlayTime-- == 0)
                     {
                         MessageDialog msg1 = new MessageDialog("You have used up your chances!\nGame is Over!");//tell the user he has run out of chances;

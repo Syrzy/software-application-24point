@@ -360,8 +360,8 @@ namespace software_application_24point
         }
         public Solve()
         {
-            Nlist = new int[4] { 9,2,3,2};
-            Nlist2 = new int[4] { 9, 2, 3, 2 };
+            Nlist = new int[4] ;
+            Nlist2 = new int[4] ;
             Olist = new char[5] {'+','-','*','/','^' };
             Rpn = new int[7];
             Correct = false;
