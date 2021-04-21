@@ -9,13 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
-        <TextBox x:Name="PresentWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,234,1000,591" FontSize="40" Header="本局胜场"/>
-        <TextBox x:Name="TotalWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,432,1000,393" FontSize="40" Header="总胜场"/>
-        <Button Content="Another game" Margin="0,685,0,0" Height="70" Width="228" FontSize="28" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <TextBox x:Name="PresentLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" Margin="926,234,290,591" FontSize="40" Header="本局败场"/>
-        <TextBox x:Name="TotalLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" Margin="926,432,290,393" FontSize="40" Header="总败场"/>
-        <TextBlock x:Name="UserName" Text="{Binding Path=Name,Mode=OneWay}" TextWrapping="Wrap" Width="292" HorizontalAlignment="Center" FontSize="48" TextAlignment="Center" Margin="0,82,0,792" FontFamily="Bradley Hand ITC" FontWeight="Bold"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="PresentWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Height="180" Width="200" FontSize="40" Header="本局胜场"/>
+        <TextBox x:Name="TotalWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Height="180" Width="200" FontSize="40" Header="总胜场" Grid.Column="1"/>
+        <Button Content="Another game" Margin="604,155,0,0" Height="95" Width="291" FontSize="28" Click="Button_Click" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="PresentLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Height="180" Width="200" FontSize="40" Header="本局败场" Grid.Row="1"/>
+        <TextBox x:Name="TotalLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Height="180" Width="200" FontSize="40" Header="总败场" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock x:Name="UserName" Text="{Binding Path=Name,Mode=OneWay}" TextWrapping="Wrap" Width="292" HorizontalAlignment="Left" FontSize="48" TextAlignment="Center" Margin="604,119,0,295" FontFamily="Bradley Hand ITC" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Page>

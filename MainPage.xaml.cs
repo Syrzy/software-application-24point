@@ -97,7 +97,7 @@ namespace software_application_24point
                 solve.Correct = false;
                 ChangeImage();
             }
-            if(PlayTime-- == 0)
+            if(PlayTime-- > 0)
             {
                 bool jump = true;
                 _timer = ThreadPoolTimer.CreateTimer(
@@ -132,7 +132,7 @@ namespace software_application_24point
                 {
                     solve.ProduceRandomNumber();
                     ChangeImage();
-                    if (PlayTime-- == 0)
+                    if (PlayTime-- > 0)
                     {
                         MessageDialog msg1 = new MessageDialog("You have used up your chances!\nGame is Over!");//tell the user he has run out of chances;
                         UICommand cmdYes1 = new UICommand();
@@ -171,7 +171,7 @@ namespace software_application_24point
                 {
                     solve.FindAllSolution();
                     //solve.ProduceRandomNumber();
-                    while (PlayTime-- == 0)
+                    while (PlayTime-- > 0)
                     {
                         solve.AllSolution = "You have already used up your chances!/n" + solve.AllSolution;
                         MessageDialog msg1 = new MessageDialog("Game is Over!");

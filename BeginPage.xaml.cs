@@ -23,7 +23,7 @@ namespace software_application_24point
     /// </summary>
     public sealed partial class BeginPage : Page
     {
-        User user = new User(0, 0, null);
+        User user = new User(0, 0, null);//
         string username;
         public BeginPage()
         {

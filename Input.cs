@@ -9,28 +9,29 @@ using Windows.UI.Xaml.Controls;
 
 namespace software_application_24point
 {
-    class Input : INotifyPropertyChanged
+    class Input : INotifyPropertyChanged//for Controls to implement binding
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private int[] array;
+        /*事实上，未来修正中此处接口可以取消。在最终程序中不需绑定。但由于调试过程所需因此遗留。*/
+        private int[] array;//array storage the ASCII code of user input
         public int[] GetandSetArray
         {
             get { return array; }
             set { array = value; }
         }
-        private double caculationresult;
+        private double caculationresult;//this member represents the caculation result of user input
         public double CaculationResult
         {
             get { return caculationresult; }
             set { caculationresult = value; }
         }
-        private int[] rpn;
+        private int[] rpn;//rpn storages the reversed polish notation of user input，operations are saved in form of ASCII
         public int[] Rpn 
         { 
             get { return rpn; }
             set { rpn = value; } 
         }
-        private string expression;
+        private string expression;//expression binding with the text property of a textcontrol,it represents the string input
         public string Expression
         {
             get { return expression; }
@@ -43,48 +44,49 @@ namespace software_application_24point
                 }
             }
         }
-        private string reverse_polish_notation;
+        private string reverse_polish_notation;//storage the reversed Polish notation in string form
         public string ReversePolishNotation
         {
             get { return reverse_polish_notation; }
             set 
             { 
                 reverse_polish_notation = value;
-                if (this.PropertyChanged != null)
+                if (this.PropertyChanged != null)//由于不再绑定，这里实现的接口同样没有意义了，仅用于软件测试
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("ReversePolishNotation"));
                 }
             }
         } 
-        public async Task StringDealAsync()
+        public async Task StringDealAsync()//including  ContentDialog, which needs async symbol
         {
-            expression.Trim();//remove blank
-            int length = Expression.Length;
-            if (length > 0)
+            Expression.Trim();//remove blank
+            int length = Expression.Length;//we need to traverse the entire string and judge every character.
+            if (length > 0)//else the input is null
             {
-                Stack<int> stack = new Stack<int>();
-                ReversePolishNotation = null;
-                int correctinput = 1;
-                int flag = 0;
-                int rkuo = 0, lkuo = 0;
-                int number = 0;
-                if(expression[0] != '+' && expression[0] != '(' && ((expression[0] < '0' || expression[0] > '9')))
+                Stack<int> stack = new Stack<int>();//this stack is used to convert rpn to nifix expression, and the inversion.
+                ReversePolishNotation = null;//represents the string form of rpn
+                int correctinput = 1;//1 means input is legal.0 means the input is illegal.
+                int flag = 0;//flag represent how many number elements are before this element
+                int rkuo = 0, lkuo = 0;//rkuo means the number of right bracket; lkuo means the number of left bracket.
+                int number = 0;//number record the number of numbers in input.
+                if(expression[0] != '+' && expression[0] != '(' && ((expression[0] < '0' || expression[0] > '9')))//judge the first character
                 {
                     correctinput = 0;
                 }
-                if(expression[0] == '+' || expression[0] == '(')
+                if(expression[0] == '+' || expression[0] == '(')//if the first character is not a number, 
                 {
-                    flag = 1;
+                    flag = 1;//we assume there is a hidding number before.
                 }
                 for (int i = 0; i < length; i++)//flag represent how many number elements are before this element
                 {
+                    /*we only admit the characters below：10 kinds of numbers and five kinds of operations*/
                     if ((expression[i] >= '0' && expression[i] <= '9') || expression[i] == '+' || expression[i] == '-' || expression[i] == '/' || expression[i] == '*' || expression[i] == '^' || expression[i] == ' ' || expression[i] == '(' || expression[i] == ')')
                     {
                         if(expression[i] >= '0' && expression[i] <= '9')
                         {
                             number++;
-                            flag++;
-                            if(flag > 2)
+                            flag++;//flag can help us define the digit of input number
+                            if(flag > 2)//flag > 2, means there is a 3-digit-number
                             {
                                 correctinput = 0;
                                 break;
@@ -92,27 +94,27 @@ namespace software_application_24point
                         }
                         else
                         {
-                            if(flag == 0)
+                            if(flag == 0)//means there is an opreartion before
                             {
                                 if (expression[i - 1] == ')') 
                                 {
-                                    if(expression[i] == '(')
+                                    if(expression[i] == '(')//右左括号不能相接，其他情况下若前一位是)那么本位可以是任何符号
                                     {
                                         correctinput = 0;
                                         break;
                                     }
                                 } 
-                                else if(expression[i] == '(')
+                                else if(expression[i] == '(')//如果本位是(,那么前一位可以是除了）外任何符号
                                 {
                                     lkuo++;
                                 }
-                                else
+                                else//如果本位不是（而且前一位也不是），则两个符号相连必定出错
                                 {
                                     correctinput = 0;
                                     break;
                                 }
                             }
-                            else if(expression[i] == ')') { rkuo++; }
+                            else if(expression[i] == ')') { rkuo++; }//whatever the character before is，rkuo or lkuo should be record correctly
                             else if(expression[i] == '(') { lkuo++; }
                             flag = 0;
                         }
@@ -122,15 +124,15 @@ namespace software_application_24point
                         correctinput = 0;
                     }
                 }
-                if(lkuo != rkuo)
+                if(lkuo != rkuo)//if'('is not the same number as ')',the input must wrong
                 {
                     correctinput = 0;
                 }
-                if (number < 4)
+                if (number < 4)//if the numbers in the input is less than 4,input must be wrong 
                 {
                     correctinput = 0;
                 }
-                if (correctinput == 0)
+                if (correctinput == 0)//when the input is incorrect, pop up a dialog to inform the user
                 {
                     ContentDialog noWifiDialog = new ContentDialog
                     {
@@ -138,12 +140,12 @@ namespace software_application_24point
                         Content = "Check your expression.",
                         CloseButtonText = "Ok"
                     };
-                    ContentDialogResult result = await noWifiDialog.ShowAsync();
+                    ContentDialogResult result = await noWifiDialog.ShowAsync();//to make the main thread synchronize with the dialog
                     return;
                 }
                 else
                 {
-                    if (expression[0] == '+')
+                    if (expression[0] == '+')//after judge the input, copy the string into expression
                     {
                         for (int i = 1; i < length; i++)
                         {
