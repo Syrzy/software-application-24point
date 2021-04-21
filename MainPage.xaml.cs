@@ -36,7 +36,7 @@ namespace software_application_24point
             this.InitializeComponent();
             InputTextBox.DataContext = input;
             RPN.DataContext = solve;
-            solve.ProduceRandomNumber();
+            //solve.ProduceRandomNumber();
             B1.DataContext = solve;
             B2.DataContext = solve;
             B3.DataContext = solve;
@@ -96,10 +96,19 @@ namespace software_application_24point
                 if ((int)selectedCommand.Id == 1)
                 {
                     solve.ProduceRandomNumber();
-                    if (--PlayTime == 0)
+                    if (PlayTime-- == 0)
                     {
-                        //tell the user he has run out of chances;
-                        Frame.Navigate(typeof(GradePage), user);
+                        MessageDialog msg1 = new MessageDialog("You have used up your chances!\nGame is Over!");//tell the user he has run out of chances;
+                        UICommand cmdYes1 = new UICommand();
+                        cmdYes1.Id = 1;
+                        cmdYes1.Label = "Let's see the grades.";
+                        msg1.Commands.Add(cmdYes1);
+                        var selectedCommand1 = await msg.ShowAsync();
+                        Submit.IsEnabled = false; 
+                        if ((int)cmdYes1.Id == 1)
+                        {
+                            Frame.Navigate(typeof(GradePage), user);
+                        }
                     }
                 }
             }
@@ -126,7 +135,7 @@ namespace software_application_24point
                 {
                     solve.FindAllSolution();
                     //solve.ProduceRandomNumber();
-                    while (--PlayTime == 0)
+                    while (PlayTime-- == 0)
                     {
                         solve.AllSolution = "You have already used up your chances!/n" + solve.AllSolution;
                         MessageDialog msg1 = new MessageDialog("Game is Over!");
@@ -136,7 +145,10 @@ namespace software_application_24point
                         msg1.Commands.Add(cmdYes1);
                         var selectedCommand1 = await msg.ShowAsync();
                         Submit.IsEnabled = false;
-                        Frame.Navigate(typeof(GradePage), user);
+                        if ((int)cmdYes1.Id == 1)
+                        {
+                            Frame.Navigate(typeof(GradePage), user);
+                        }
                     }
                 }
             }

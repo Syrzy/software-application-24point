@@ -34,7 +34,6 @@ namespace software_application_24point
             if (e.Parameter != null && e.Parameter is User)
             {
                 user = e.Parameter as User;
-                user.Losetimes += (5 - user.Wintimes);
                 PresentWin.DataContext = differenceuser;
                 TotalWin.DataContext = user;
                 PresentLose.DataContext = differenceuser;
@@ -55,7 +54,8 @@ namespace software_application_24point
                     if (UserValue["name"].ToString() == user.Name)
                     {
                         differenceuser.Wintimes = user.Wintimes - Convert.ToInt32(UserValue["wintimes"].ToString());
-                        differenceuser.Losetimes = user.Losetimes - Convert.ToInt32(UserValue["losetimes"].ToString());
+                        differenceuser.Losetimes = 5-differenceuser.Wintimes;
+                        user.Losetimes += differenceuser.Losetimes;
                         UsersCollection.Users[i] = user;
                         UserValue["wintimes"] = user.Wintimes;
                         UserValue["losetimes"] = user.Losetimes;

@@ -8,9 +8,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid x:Name="BeginPageGrid">
         <TextBox x:Name="TextBoxUserName" HorizontalAlignment="Center" VerticalAlignment="Center" Text="" TextWrapping="Wrap" Height="80" Width="270" Header="Please type in User name" FontFamily="Comic Sans MS" FontSize="22" TextAlignment="Center" />
         <Button  Content="BEGIN!" Height="69" Width="270"  HorizontalAlignment="Center" Margin="0,656,0,0" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="48" Click="Button_Click" />
-        <Button Content="Button" Height="72" Margin="1244,845,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click_1"/>
+        <Button Content="Button" Height="72" Margin="1244,845,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click_1" Visibility="Collapsed"/>
     </Grid>
 </Page>

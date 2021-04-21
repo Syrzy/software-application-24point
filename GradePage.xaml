@@ -12,10 +12,10 @@
 
         <TextBox x:Name="PresentWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,234,1000,591" FontSize="40" Header="本局胜场"/>
         <TextBox x:Name="TotalWin" Text="{Binding Path=Wintimes, Mode=OneWay}" TextWrapping="Wrap" Margin="239,432,1000,393" FontSize="40" Header="总胜场"/>
-        <Button Content="Another game" Margin="908,707,0,0" VerticalAlignment="Top" Height="70" Width="228" FontSize="28" Click="Button_Click"/>
+        <Button Content="Another game" Margin="0,685,0,0" Height="70" Width="228" FontSize="28" Click="Button_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <TextBox x:Name="PresentLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" Margin="926,234,290,591" FontSize="40" Header="本局败场"/>
         <TextBox x:Name="TotalLose" Text="{Binding Path=Losetimes, Mode=OneWay}" TextWrapping="Wrap" Margin="926,432,290,393" FontSize="40" Header="总败场"/>
-        <TextBlock x:Name="UserName" HorizontalAlignment="Left" Text="{Binding Path=Name,Mode=OneWay}" TextWrapping="Wrap" Height="101" Width="234" Margin="596,101,0,798" FontSize="36" TextAlignment="Center"/>
+        <TextBlock x:Name="UserName" Text="{Binding Path=Name,Mode=OneWay}" TextWrapping="Wrap" Width="292" HorizontalAlignment="Center" FontSize="48" TextAlignment="Center" Margin="0,82,0,792" FontFamily="Bradley Hand ITC" FontWeight="Bold"/>
 
     </Grid>
 </Page>

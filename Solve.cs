@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace software_application_24point
     class Solve : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private ArrayList Rpnlist;
         public bool Correct;
         private int[] Nlist;//number list
         private int[] Nlist2;//number list
@@ -45,6 +47,7 @@ namespace software_application_24point
             {
                 ProduceRandomNumber();
             }
+            AllSolution = "";
         }
         public string A1
         {
@@ -97,9 +100,12 @@ namespace software_application_24point
         public void FindAllSolution()
         {
             AllSolution = "";
-            FindAllSolution(0);
+            FindAllSolution1(0);
+            Rpnlist = new ArrayList();
+            FindAllSolution2(0);
+            Rpnlist = new ArrayList();
         }
-        public void FindAllSolution(int i)
+        private void FindAllSolution1(int i)
         {
             if(i < 7)
             {
@@ -112,7 +118,7 @@ namespace software_application_24point
                         {
                             Rpn[i] = Nlist[j];
                             Nlist2[j] = 0;
-                            FindAllSolution(1+i);
+                            FindAllSolution1(1+i);
                             Nlist2[j] = Rpn[i];
                         }
                     }
@@ -122,7 +128,7 @@ namespace software_application_24point
                     for (int j = 0; j < 5; j++)
                     {
                         Rpn[i] = Olist[j];
-                        FindAllSolution(1+i);
+                        FindAllSolution1(1+i);
                     }
                 }
             }
@@ -130,10 +136,92 @@ namespace software_application_24point
             {
                 if (CaculateRpn(Rpn) == 24)
                 {
-                    AllSolution += (ConvertRpn(Rpn) + '\n');
+                    if (!IsRpnRepeat(Rpn,1))
+                    {
+                        AllSolution += (ConvertRpn(Rpn) + '\n');
+                    }
                 }
             }
             return;
+        }
+        private void FindAllSolution2(int i)
+        {
+            if (i < 7)
+            {
+                if (i == 0 || i == 1 || i == 3 || i == 4)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (Nlist2[j] == 0) { continue; }
+                        else
+                        {
+                            Rpn[i] = Nlist[j];
+                            Nlist2[j] = 0;
+                            FindAllSolution2(1 + i);
+                            Nlist2[j] = Rpn[i];
+                        }
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < 5; j++)
+                    {
+                        Rpn[i] = Olist[j];
+                        FindAllSolution2(1 + i);
+                    }
+                }
+            }
+            else
+            {
+                if (CaculateRpn(Rpn) == 24)
+                {
+                    if (!IsRpnRepeat(Rpn, 2))
+                    {
+                        AllSolution += (ConvertRpn(Rpn) + '\n');
+                    }
+                }
+            }
+            return;
+        }
+        private bool IsRpnRepeat(int[] rpn, int mode) //mode represents this function will be used in which kind of rpnlist
+        {
+            bool IsRepeat = false;
+            int length = Rpnlist.Count;
+            int[] templist = new int[7];
+            for (int i = 0;i < length; i++)
+            {
+                templist = Rpnlist[i] as int[];
+                if (mode == 1)//mode 1 represents "nnonono" style rpnlist
+                {
+                    int[] OperationList1 = new int[3] { templist[2], templist[4], templist[6] };
+                    int[] OperationList2 = new int[3] { rpn[2], rpn[4], rpn[6] };
+                    Array.Sort(OperationList1);
+                    Array.Sort(OperationList2);
+                    if (Enumerable.SequenceEqual(OperationList1, OperationList2))//compare the two list
+                    {
+                        IsRepeat = true;//if all same,very much propbably they are repeat rpn
+                    }
+                }
+                if (mode == 2)//mode 2 represents "nnonnoo" style rpnlist
+                {
+                    int[] OperationList1 = new int[3] { templist[2], templist[5], templist[6] };
+                    int[] OperationList2 = new int[3] { rpn[2], rpn[5], rpn[6] };
+                    Array.Sort(OperationList1);
+                    Array.Sort(OperationList2);
+                    if (Enumerable.SequenceEqual(OperationList1, OperationList2))
+                    {
+                        IsRepeat = true;
+                    }
+                }
+            }
+            if (!IsRepeat)
+            {
+                int[] Copyrpn = new int[7];
+                rpn.CopyTo(Copyrpn, 0);
+                Rpnlist.Add(Copyrpn);
+
+            }
+            return IsRepeat;
         }
         public double CaculateRpn(int[] rpn)
         {
@@ -173,7 +261,7 @@ namespace software_application_24point
                     }
                     else if (rpn[i] == '^')
                     {
-                        if ((int)num3 != num3)
+                        if ((int)num3 - num3 > 0.00000001 || (int)num3 - num3 < -0.00000001)
                         {
                             stack.Push(-1);
                             break;
@@ -204,11 +292,11 @@ namespace software_application_24point
                     string x = stack.Pop();
                     switch (n)
                     {
-                        case '+': stack.Push(x +'+'+ y); break;
-                        case '-': stack.Push(x +'-'+ y); break;
-                        case '*': stack.Push(x +'*'+ y); break;
-                        case '/': stack.Push(x +'/'+ y); break;
-                        case '^': stack.Push(x +'^'+ y);break;
+                        case '+': stack.Push('(' + x + '+' + y + ')'); break;
+                        case '-': stack.Push('(' + x + '-' + y + ')'); break;
+                        case '*': stack.Push('(' + x + '*' + y + ')'); break;
+                        case '/': stack.Push('(' + x + '/' + y + ')'); break;
+                        case '^': stack.Push('(' + x + '^' + y + ')'); break;
                     }
                 }
             }
@@ -272,12 +360,12 @@ namespace software_application_24point
         }
         public Solve()
         {
-            Nlist = new int[4];
-            Nlist2 = new int[4];
+            Nlist = new int[4] { 9,2,3,2};
+            Nlist2 = new int[4] { 9, 2, 3, 2 };
             Olist = new char[5] {'+','-','*','/','^' };
             Rpn = new int[7];
-            allsolution = "hello!\n";
             Correct = false;
+            Rpnlist = new ArrayList();
         }
     }
 }

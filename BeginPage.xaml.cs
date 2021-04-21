@@ -27,6 +27,7 @@ namespace software_application_24point
         public BeginPage()
         {
             this.InitializeComponent();
+
         }
         private void GetLocalData()
         {
@@ -36,6 +37,7 @@ namespace software_application_24point
             if (localSettings.Values["IndexValue"] == null)
             {
                 UserNumber++;
+                user.Name = TextBoxUserName.Text;
                 UsersCollection.Users.Clear();
                 UsersCollection.Users.Add(user);
                 localSettings.Values["IndexValue"] = 1;
