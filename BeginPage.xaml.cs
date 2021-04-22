@@ -27,17 +27,17 @@ namespace software_application_24point
         string username;
         public BeginPage()
         {
-            this.InitializeComponent();
+            this.InitializeComponent();//page is initialized here
             ImageBrush imageBrush = new ImageBrush();
             imageBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/BackGround.jpg", UriKind.Absolute));
-            BeginPageGrid.Background = imageBrush;
+            BeginPageGrid.Background = imageBrush;//creat a image background
         }
         private void GetLocalData()
         {
             int UserNumber = 0;
             username = TextBoxUserName.Text;
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["IndexValue"] == null)
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;//make a basic database
+            if (localSettings.Values["IndexValue"] == null)//means there is No user before
             {
                 UserNumber++;
                 user.Name = TextBoxUserName.Text;

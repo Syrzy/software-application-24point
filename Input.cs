@@ -167,29 +167,30 @@ namespace software_application_24point
                     }
                 }
                 length = ReversePolishNotation.Length;
-                array = new int[length];
+                array = new int[length];//array will storage the  ASCII of input
                 flag = 0;
-                int j = 0;
+                int j = 0;//j uses as the index of array
                 for (int i = 0; i < length; i++,j++)//flag represent how many number elements are before this element
                 {
-                    if(reverse_polish_notation[i] > '9' || reverse_polish_notation[i] < '0')
+                    if(reverse_polish_notation[i] > '9' || reverse_polish_notation[i] < '0')//collect operation
                     {
                         array[j] = (int)ReversePolishNotation[i];
                         flag = 0;
                     }
                     else
                     {
-                        j -= flag;
-                        array[j] = (reverse_polish_notation[i] - 48)+array[j]*10;
+                        j -= flag;//flag !=0 means there is number before,then the continual numbers in reverse_polish_notation is one number
+                        array[j] = (reverse_polish_notation[i] - 48)+array[j]*10;//the early number has bigger digit
                         flag = 1;
                     }
                 }
+                //获取后缀表达式（SACII版本）
                 rpn = new int[array.Length];
                 int temp;
                 j = 0;
                 for (int i =0; i < array.Length && array[i] != 0; i++)
                 {
-                    if(array[i]>0 && array[i] < 14)
+                    if(array[i]>0 && array[i] < 14)// numbers directly add in the array
                     {
                         rpn[j++] = array[i];
                     }
