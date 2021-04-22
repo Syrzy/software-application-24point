@@ -28,34 +28,38 @@ namespace software_application_24point
     public sealed partial class MainPage : Page
     {
         private ThreadPoolTimer _timer;//time counter,let the last ContentDialogResult can be chose and deal
-        int PlayTime = 5;
-        Input input = new Input("Please type in arithmetic expression here.");
+        int PlayTime = 5;//how many rounds in one game
+        Input input = new Input("Please type in arithmetic expression here.");//creat a Input entity
         Solve solve = new Solve();
-        User user;
+        User user;//user will gain data from the past page
         public MainPage()
         {
             this.InitializeComponent();
+
             ImageBrush imageBrush = new ImageBrush();
             imageBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/BackGround.jpg", UriKind.Absolute));
             MainPageGrid.Background = imageBrush;
-            InputTextBox.DataContext = input;
-            RPN.DataContext = solve;
-            solve.ProduceRandomNumber();
-            ChangeImage();
-            B1.DataContext = solve;
+
+            InputTextBox.DataContext = input;//binding. Through the binding input entity get the user input
+            RPN.DataContext = solve;//binding
+
+            solve.ProduceRandomNumber();//proudce 4 random numbers from palyer. ProduceRandomNumber() will assure these 4 numbers can make up 24
+            ChangeImage();//in line with random numbers change the photos
+
+            B1.DataContext = solve;//binding
             B2.DataContext = solve;
             B3.DataContext = solve;
             B4.DataContext = solve;
 
         }
-        public void ChangeImage()
+        public void ChangeImage()//changes the address of Image Control in line with 4 numbers.
         {
             Image1.Source = new BitmapImage(new Uri(GetAddress(Convert.ToInt32(solve.A1))));
             Image2.Source = new BitmapImage(new Uri(GetAddress(solve.A2)));
             Image3.Source = new BitmapImage(new Uri(GetAddress(solve.A3)));
             Image4.Source = new BitmapImage(new Uri(GetAddress(solve.A4)));
         }
-        public string GetAddress(int n)
+        public string GetAddress(int n)//on the basis of number(1-13) transform number into address
         {
             string address = "ms-appx:///Assets/";
             switch (n)
@@ -80,24 +84,24 @@ namespace software_application_24point
         {
             if (e.Parameter != null && e.Parameter is User)
             {
-                user = e.Parameter as User;
+                user = e.Parameter as User;//gain the data deliveried from the past page
             }
         }
 
-        private void Submit_Button_Click(object sender, RoutedEventArgs e)
+        private void Submit_Button_Click(object sender, RoutedEventArgs e)//user submit his input
         {
-            _ = input.StringDealAsync();
+            _ = input.StringDealAsync();//transform the input into reverse polish notation and judge the legality of input 
             if (input.GetandSetArray != null)
             {
-                _=solve.Judge(input.CaculationResult,input.GetandSetArray);
+                _=solve.Judge(input.CaculationResult,input.GetandSetArray);//judge the caculation result of RPN and modify the value of solve.Correct
             }
             if(solve.Correct == true)
             {
                 user.Wintimes++;
                 solve.Correct = false;
-                ChangeImage();
+                ChangeImage();//in the function solve.Judge if result is correct, it will invoke ProduceRandomNumber
             }
-            if(PlayTime-- > 0)
+            if(PlayTime-- > 0)//every submit will cost one play chance
             {
                 bool jump = true;
                 _timer = ThreadPoolTimer.CreateTimer(

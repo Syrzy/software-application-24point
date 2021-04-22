@@ -12,13 +12,13 @@ namespace software_application_24point
     class Solve : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private ArrayList Rpnlist;
+        private ArrayList Rpnlist;//Rpnlist is a collection of RPN,used to record the potential RPN so as to find the repetition
         public bool Correct;
-        private int[] Nlist;//number list
-        private int[] Nlist2;//number list
+        private int[] Nlist;//number list, represent the 4 numbers for 24 caculation
+        private int[] Nlist2;//number list, the copy of Nlist, whitch is used in finding solution function
         private char[] Olist;//operation list
         private int[] Rpn;// reverse polish notation
-        private string allsolution;
+        private string allsolution;//represents the all the solutions for certain Nlist
         public string AllSolution
         {
             get { return allsolution; }
@@ -31,7 +31,7 @@ namespace software_application_24point
                 }
             }
         }
-        public void ProduceRandomNumber()
+        public void ProduceRandomNumber()//produce random numbers for player
         {
             Random rd = new Random();
             A1 = ((rd.Next(1, 1000)) % 13 + 1).ToString();
@@ -40,14 +40,14 @@ namespace software_application_24point
             A4 = (rd.Next(1, 1000)) % 13 + 1;
             for (int i = 0; i < 4; i++)
             {
-                Nlist2[i] = Nlist[i];
+                Nlist2[i] = Nlist[i];//copy Nlist into Nlist2.这里也可以使用Copy功能
             }
-            FindAllSolution();
-            if (AllSolution == "")
+            FindAllSolution();//test if these numbers have at least one solution
+            if (AllSolution == "")//means there is no solution
             {
-                ProduceRandomNumber();
+                ProduceRandomNumber();//produce again
             }
-            AllSolution = "";
+            AllSolution = "";//because the AllSolution property is binding with the text of textblock control,so after the test AllSolution need to be clean.
         }
         public string A1
         {
@@ -97,14 +97,20 @@ namespace software_application_24point
                 }
             }
         }
-        public void FindAllSolution()
+        public void FindAllSolution()//顾名思义
         {
-            AllSolution = "";
+            AllSolution = "";//initialize the output
             FindAllSolution1(0);
-            Rpnlist = new ArrayList();
+            Rpnlist = new ArrayList();//FindAllSolution will produce many rpn and storage them into the Rpnlist
             FindAllSolution2(0);
             Rpnlist = new ArrayList();
         }
+        /*这里不好装逼用英文了。核心思路还是后缀表达式。由于4个数字三个运算符且运算符均为双元运算符，所以显然后缀表达式的形式有且仅有两种：
+         数 数 符 数 符 数 符 或者 数 数 符 数  数 符 符。那么我们只需要按照固定形式向7位后缀表达式中填充数字或者符号，即可完成遍历。
+        根据这两种表达形式分别进行深度为8的递归,查找所有可能的计算情况。递归思路如下：
+        递归深度代表了本轮递归所填充的位置，根据深度可以选择向该位置填充数字或者符号；而数字只能是1-13，用一个新的Nlist2存储数组，如果数字已被使用，
+        则将之置为0（递归返回后再改回原值），表示该数字已被使用。而符号则没有使用次数限制。当递归进行到深度为8时，后缀表达式已经被填充完毕，因此
+        可以进行计算，如果等于24，则成功找到一个解*/
         private void FindAllSolution1(int i)
         {
             if(i < 7)
@@ -183,6 +189,9 @@ namespace software_application_24point
             }
             return;
         }
+        /*这里同样需要大段中文来解释一下。本方法的用处是根据新后缀式rpn，该后缀式的模式以及已有解（存储在Rpnlist里）来判断新后缀式rpn是否重复
+         思路如下：在4个数字，且结果为24的一系列后缀式中，如果后缀式模式一样则意味着采取相同的运算顺序，如果此时后缀式的符号种类也一样（不要求符号
+        顺序相同，不要求数字顺序相同），则两个后缀式一定可以互相转化。本方法将找出新rpn的符号种类是否和已有Rpnlist中的相同，如相同则不予采纳*/
         private bool IsRpnRepeat(int[] rpn, int mode) //mode represents this function will be used in which kind of rpnlist
         {
             bool IsRepeat = false;
@@ -216,14 +225,14 @@ namespace software_application_24point
             }
             if (!IsRepeat)
             {
-                int[] Copyrpn = new int[7];
+                int[] Copyrpn = new int[7];//add function is shallow copy
                 rpn.CopyTo(Copyrpn, 0);
                 Rpnlist.Add(Copyrpn);
 
             }
             return IsRepeat;
         }
-        public double CaculateRpn(int[] rpn)
+        public double CaculateRpn(int[] rpn)//I think the name is very straight
         {
             double CaculationResult;
             Stack<double> stack = new Stack<double>();
@@ -274,11 +283,12 @@ namespace software_application_24point
             CaculationResult = stack.Pop();
             return CaculationResult;
         }
-        public string ConvertRpn(int[] rpn)
+        public string ConvertRpn(int[] rpn)//this function will transform the ASCII style reverse polish notation into nifix expression of string style
         {
             Stack<string> stack = new Stack<string>();
             for (int i = 0; i < rpn.Length; i++)
             {
+                //actually the progress is caculating the rpn
                 int n = rpn[i];
                 if (n > 0  && n < 14)
                 {
@@ -292,7 +302,7 @@ namespace software_application_24point
                     string x = stack.Pop();
                     switch (n)
                     {
-                        case '+': stack.Push('(' + x + '+' + y + ')'); break;
+                        case '+': stack.Push('(' + x + '+' + y + ')'); break;//the core is not caculate the two number but join them in string type
                         case '-': stack.Push('(' + x + '-' + y + ')'); break;
                         case '*': stack.Push('(' + x + '*' + y + ')'); break;
                         case '/': stack.Push('(' + x + '/' + y + ')'); break;
