@@ -101,7 +101,7 @@ namespace software_application_24point
         {
             AllSolution = "";//initialize the output
             FindAllSolution1(0);
-            Rpnlist = new ArrayList();//FindAllSolution will produce many rpn and storage them into the Rpnlist
+            //Rpnlist = new ArrayList();//FindAllSolution will produce many rpn and storage them into the Rpnlist
             FindAllSolution2(0);
             Rpnlist = new ArrayList();
         }

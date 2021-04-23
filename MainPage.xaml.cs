@@ -29,7 +29,7 @@ namespace software_application_24point
     {
         private ThreadPoolTimer _timer;//time counter,let the last ContentDialogResult can be chose and deal
         int PlayTime = 5;//how many rounds in one game
-        Input input = new Input("Please type in arithmetic expression here.");//creat a Input entity
+        Input input = new Input("");//creat a Input entity
         Solve solve = new Solve();
         User user;//user will gain data from the past page
         public MainPage()
@@ -52,6 +52,7 @@ namespace software_application_24point
             B4.DataContext = solve;
 
         }
+
         public void ChangeImage()//changes the address of Image Control in line with 4 numbers.
         {
             Image1.Source = new BitmapImage(new Uri(GetAddress(Convert.ToInt32(solve.A1))));
@@ -101,7 +102,7 @@ namespace software_application_24point
                 solve.Correct = false;
                 ChangeImage();//in the function solve.Judge if result is correct, it will invoke ProduceRandomNumber
             }
-            if(PlayTime-- > 0)//every submit will cost one play chance
+            if(--PlayTime <= 0)//every submit will cost one play chance
             {
                 bool jump = true;
                 _timer = ThreadPoolTimer.CreateTimer(
@@ -136,16 +137,16 @@ namespace software_application_24point
                 {
                     solve.ProduceRandomNumber();
                     ChangeImage();
-                    if (PlayTime-- > 0)
+                    if (--PlayTime <= 0)
                     {
-                        MessageDialog msg1 = new MessageDialog("You have used up your chances!\nGame is Over!");//tell the user he has run out of chances;
+                        MessageDialog msg1 = new MessageDialog("You have used up your chances!\nGame is Over!\n");//tell the user he has run out of chances;
                         UICommand cmdYes1 = new UICommand();
                         cmdYes1.Id = 1;
                         cmdYes1.Label = "Let's see the grades.";
                         msg1.Commands.Add(cmdYes1);
-                        var selectedCommand1 = await msg.ShowAsync();
+                        var selectedCommand1 = await msg1.ShowAsync();
                         Submit.IsEnabled = false; 
-                        if ((int)cmdYes1.Id == 1)
+                        if ((int)selectedCommand1.Id == 1)
                         {
                             Frame.Navigate(typeof(GradePage), user);
                         }
@@ -175,17 +176,17 @@ namespace software_application_24point
                 {
                     solve.FindAllSolution();
                     //solve.ProduceRandomNumber();
-                    while (PlayTime-- > 0)
+                    if (--PlayTime <= 0)
                     {
-                        solve.AllSolution = "You have already used up your chances!/n" + solve.AllSolution;
+                        solve.AllSolution = "You have used up your chances!\n" + solve.AllSolution;
                         MessageDialog msg1 = new MessageDialog("Game is Over!");
                         UICommand cmdYes1 = new UICommand();
                         cmdYes1.Id = 1;
                         cmdYes1.Label = "Let's see the grades.";
                         msg1.Commands.Add(cmdYes1);
-                        var selectedCommand1 = await msg.ShowAsync();
+                        var selectedCommand1 = await msg1.ShowAsync();
                         Submit.IsEnabled = false;
-                        if ((int)cmdYes1.Id == 1)
+                        if ((int)selectedCommand1.Id == 1)
                         {
                             Frame.Navigate(typeof(GradePage), user);
                         }
